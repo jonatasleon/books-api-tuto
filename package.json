@@ -1,10 +1,11 @@
-{
-  "name": "books-api",
+{ "name": "books-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "tutorial em https://www.youtube.com/watch?v=CTz5pCnZ03k&list=PLz_YTBuxtxt74aOA2W8ArqZpsPlxP-JC9",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "babel-node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-integration": "mocha --opts tests/integration/mocha.opts tests/integration/*.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,16 @@
   "bugs": {
     "url": "https://github.com/jonatasleon/books-api-tuto/issues"
   },
-  "homepage": "https://github.com/jonatasleon/books-api-tuto#readme"
+  "homepage": "https://github.com/jonatasleon/books-api-tuto#readme",
+  "dependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.16.0",
+    "babel-preset-es2015": "^6.16.0",
+    "express": "^4.14.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.0",
+    "supertest": "^2.0.0"
+  }
 }
