@@ -4,9 +4,11 @@
   "description": "tutorial em https://www.youtube.com/watch?v=CTz5pCnZ03k&list=PLz_YTBuxtxt74aOA2W8ArqZpsPlxP-JC9",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node index.js",
+    "start": "DEBUG='books-api:*' babel-node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test-integration": "mocha --opts tests/integration/mocha.opts tests/integration/*.js"
+    "test-integration": "mocha --opts tests/integration/mocha.opts tests/integration/*.js",
+    "lint": "eslint '**/*.js'",
+    "lint:fix": "eslint '**/*.js' --fix"
   },
   "repository": {
     "type": "git",
@@ -23,12 +25,18 @@
     "babel-cli": "^6.16.0",
     "babel-preset-es2015": "^6.16.0",
     "body-parser": "^1.15.2",
+    "debug": "^2.2.0",
     "express": "^4.14.0",
     "sequelize": "^3.24.3",
     "sqlite3": "^3.1.5"
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "eslint": "^3.7.1",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-react": "^6.3.0",
     "mocha": "^3.1.0",
     "supertest": "^2.0.0"
   }
