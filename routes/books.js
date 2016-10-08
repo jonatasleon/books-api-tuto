@@ -1,43 +1,47 @@
 import express from 'express';
-// import BooksController from '../controllers/books';
+import BooksController from '../controllers/books';
 
 export default (Books) => {
   const router = new express.Router();
+  const booksController = new BooksController(Books);
 
   router.get('/', (req, res) => {
-    Books.findAll({})
-      .then(result => res.json(result))
-      .catch(() => res.status(412));
+    booksController.getAll()
+      .then((response) => {
+        res.status(response.statusCode);
+        res.json(response.data);
+      });
   });
 
   router.post('/', (req, res) => {
-    Books.create(req.body)
-      .then(result => res.json(result))
-      .catch(() => res.status(412));
+    booksController.create(req.body)
+      .then((response) => {
+        res.status(response.statusCode);
+        res.json(response.data);
+      });
   });
 
   router.get('/:id', (req, res) => {
-    Books.findOne({
-      id: req.params.id,
-    })
-      .then(result => res.json(result))
-      .catch(() => res.status(412));
+    booksController.getById(req.params.id)
+      .then((response) => {
+        res.status(response.statusCode);
+        res.json(response.data);
+      });
   });
 
   router.put('/:id', (req, res) => {
-    Books.update(req.body, {
-      where: req.params,
-    })
-      .then(result => res.json(result))
-      .catch(() => res.status(412));
+    booksController.update(req.body, req.params.id)
+      .then((response) => {
+        res.status(response.statusCode);
+        res.json(response.data);
+      });
   });
 
   router.delete('/:id', (req, res) => {
-    Books.destroy({
-      where: req.params,
-    })
-      .then(() => res.sendStatus(204))
-      .catch(() => res.status(412));
+    booksController.delete(req.params.id)
+      .then((response) => {
+        res.sendStatus(response.statusCode);
+      });
   });
 
   return router;
