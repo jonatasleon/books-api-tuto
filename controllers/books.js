@@ -1,9 +1,11 @@
-const defaultResponse = (data, statusCode = 200) => ({
+import HttpStatus from 'http-status';
+
+const defaultResponse = (data, statusCode = HttpStatus.OK) => ({
   data,
   statusCode,
 });
 
-const errorReponse = (message, statusCode = 400) => defaultResponse({
+const errorReponse = (message, statusCode = HttpStatus.BAD_REQUEST) => defaultResponse({
   error: message,
 }, statusCode);
 
@@ -26,20 +28,20 @@ class BooksController {
 
   create(book) {
     return this.Books.create(book)
-      .then(result => defaultResponse(result, 201))
-      .catch(err => errorReponse(err.message, 422));
+      .then(result => defaultResponse(result, HttpStatus.CREATED))
+      .catch(err => errorReponse(err.message, HttpStatus.UNPROCESSABLE_ENTITY));
   }
 
   update(book, id) {
     return this.Books.update(book, { where: { id } })
       .then(result => defaultResponse(result))
-      .catch(err => errorReponse(err.message, 422));
+      .catch(err => errorReponse(err.message, HttpStatus.UNPROCESSABLE_ENTITY));
   }
 
   delete(id) {
     return this.Books.destroy({ where: { id } })
-      .then(result => defaultResponse(result, 204))
-      .catch(err => errorReponse(err.message, 422));
+      .then(result => defaultResponse(result, HttpStatus.NO_CONTENT))
+      .catch(err => errorReponse(err.message, HttpStatus.UNPROCESSABLE_ENTITY));
   }
 }
 
