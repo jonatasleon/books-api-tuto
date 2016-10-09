@@ -4,8 +4,8 @@
   "description": "tutorial em https://www.youtube.com/watch?v=CTz5pCnZ03k&list=PLz_YTBuxtxt74aOA2W8ArqZpsPlxP-JC9",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node index.js",
-    "babel": "DEBUG='books-api:*' babel-node index.js",
+    "start": "NODE_ENV=prod babel-node index.js",
+    "babel": "DEBUG='books-api:*' NODE_ENV=dev babel-node index.js",
     "test": "npm run lint && npm run test-unit && npm run test-integration && npm run test-contract",
     "test-integration": "NODE_ENV=test mocha --opts tests/integration/mocha.opts tests/integration/*.js",
     "test-unit": "NODE_ENV=test mocha --opts tests/unit/mocha.opts tests/unit/**/*.js",
@@ -30,6 +30,7 @@
     "body-parser": "^1.15.2",
     "debug": "^2.2.0",
     "express": "^4.14.0",
+    "http-status": "^0.2.3",
     "sequelize": "^3.24.3",
     "sqlite3": "^3.1.5"
   },
