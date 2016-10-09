@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import config from './config/config';
 import datasource from './config/datasource';
 import routes from './routes';
+import authorization from './auth';
 
 const app = express();
 
@@ -11,8 +12,11 @@ app.datasource = datasource(app);
 app.set('port', 7000);
 app.use(bodyParser.json());
 
-const models = app.datasource.models;
+const auth = authorization(app);
 
-app.use('/', routes(models));
+app.use(auth.initialize());
+app.auth = auth;
+
+app.use('/', routes(app));
 
 export default app;

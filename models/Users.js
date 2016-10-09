@@ -20,6 +20,7 @@ export default (sequelize, DataType) => {
       validate: {
         notEmpty: true,
       },
+      unique: true,
     },
     password: {
       type: DataType.STRING,
@@ -32,7 +33,7 @@ export default (sequelize, DataType) => {
     hooks: {
       beforeCreate: (user) => {
         const salt = bcrypt.genSaltSync();
-        user.set('passoword', bcrypt.hashSync(user.password, salt));
+        user.set('password', bcrypt.hashSync(user.password, salt));
       },
     },
     classMethods: {
