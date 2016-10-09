@@ -8,8 +8,8 @@ export default (app) => {
   const models = app.datasource.models;
   const config = app.config;
 
-  router.use('/books', bookRoutes(models.Books));
-  router.use('/users', userRoutes(models.Users));
+  router.use('/books', bookRoutes(models.Books, app.auth));
+  router.use('/users', userRoutes(models.Users, app.auth));
   router.use('/auth', authRoutes(models.Users, config));
 
   return router;

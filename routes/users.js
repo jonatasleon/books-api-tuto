@@ -1,9 +1,13 @@
 import express from 'express';
 import UsersController from '../controllers/users';
 
-export default (Users) => {
+export default (Users, auth = null) => {
   const router = new express.Router();
   const usersController = new UsersController(Users);
+
+  if (auth) {
+    router.all('*', auth.authenticate());
+  }
 
   router.get('/', (req, res) => {
     usersController.getAll()

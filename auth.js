@@ -2,14 +2,13 @@ import passport from 'passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 
 export default (app) => {
-  const models = app.datasource.models;
+  const Users = app.datasource.models.Users;
   const config = app.config;
   const opts = {};
 
   opts.secretOrKey = config.jwtSecret;
   opts.jwtFromRequest = ExtractJwt.fromAuthHeader();
 
-  const Users = models.Users;
   const strategy = new Strategy(opts, (payload, done) => {
     Users.findById(payload.id)
       .then((user) => {
@@ -28,6 +27,6 @@ export default (app) => {
 
   return {
     initialize: () => passport.initialize(),
-    authenticate: () => passport.authenticate('jwt', config.jwtSecret),
+    authenticate: () => passport.authenticate('jwt', config.jwtSession),
   };
 };

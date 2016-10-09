@@ -1,17 +1,33 @@
+import jwt from 'jwt-simple';
+
 describe('Routes Users', () => {
   const Users = app.datasource.models.Users;
+  const jwtSecret = app.config.jwtSecret;
   const defaultUser = {
     id: 1,
     name: 'Default User',
     email: 'default@mail.com',
-    password: 'default',
+    password: 'test',
   };
+
+  let token;
 
   beforeEach((done) => {
     Users.destroy({ where: {} })
-      .then(() => Users.create(defaultUser))
       .then(() => {
-        done();
+        Users.create({
+          id: 2,
+          name: 'Foo',
+          email: 'bar@mail.com',
+          password: 'kozdot',
+        })
+        .then((user) => {
+          Users.create(defaultUser)
+            .then(() => {
+              token = jwt.encode({ id: user.id }, jwtSecret);
+              done();
+            });
+        });
       });
   });
 
@@ -27,6 +43,7 @@ describe('Routes Users', () => {
       }));
 
       request.get('/users')
+        .set('Authorization', `JWT ${token}`)
         .end((err, res) => {
           joiAssert(res.body, usersList);
           done(err);
@@ -46,6 +63,7 @@ describe('Routes Users', () => {
       });
 
       request.get('/users/1')
+        .set('Authorization', `JWT ${token}`)
         .end((err, res) => {
           joiAssert(res.body, user);
           done(err);
@@ -56,7 +74,7 @@ describe('Routes Users', () => {
   describe('Route POST /users', () => {
     it('should create a user', (done) => {
       const newUser = {
-        id: 2,
+        id: 3,
         name: 'New user',
         email: 'new@mail.com',
         password: 'newPass',
@@ -72,6 +90,7 @@ describe('Routes Users', () => {
       });
 
       request.post('/users')
+        .set('Authorization', `JWT ${token}`)
         .send(newUser)
         .end((err, res) => {
           joiAssert(res.body, user);
@@ -92,6 +111,7 @@ describe('Routes Users', () => {
       const updatedCount = Joi.array().items(1);
 
       request.put('/users/1')
+        .set('Authorization', `JWT ${token}`)
         .send(updatedUser)
         .end((err, res) => {
           joiAssert(res.body, updatedCount);
@@ -103,6 +123,7 @@ describe('Routes Users', () => {
   describe('Route DELETE /users/{id}', () => {
     it('should delete a user', (done) => {
       request.delete('/users/1')
+        .set('Authorization', `JWT ${token}`)
         .end((err, res) => {
           expect(res.statusCode).to.be.eql(204);
           done(err);

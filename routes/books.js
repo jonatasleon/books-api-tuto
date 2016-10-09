@@ -1,9 +1,13 @@
 import express from 'express';
 import BooksController from '../controllers/books';
 
-export default (Books) => {
+export default (Books, auth = null) => {
   const router = new express.Router();
   const booksController = new BooksController(Books);
+
+  if (auth) {
+    router.all('*', auth.authenticate());
+  }
 
   router.get('/', (req, res) => {
     booksController.getAll()
