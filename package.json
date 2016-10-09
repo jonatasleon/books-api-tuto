@@ -7,9 +7,9 @@
     "start": "NODE_ENV=prod babel-node index.js",
     "babel": "DEBUG='books-api:*' NODE_ENV=dev babel-node index.js",
     "test": "npm run lint && npm run test-unit && npm run test-integration && npm run test-contract",
-    "test-integration": "NODE_ENV=test mocha --opts tests/integration/mocha.opts tests/integration/*.js",
+    "test-integration": "NODE_ENV=test mocha --opts tests/integration/mocha.opts tests/integration/**/*.js",
     "test-unit": "NODE_ENV=test mocha --opts tests/unit/mocha.opts tests/unit/**/*.js",
-    "test-contract": "NODE_ENV=test mocha --opts tests/contract/mocha.opts tests/contract/*.js",
+    "test-contract": "NODE_ENV=test mocha --opts tests/contract/mocha.opts tests/contract/**/*.js",
     "lint": "eslint '**/*.js'",
     "lint:fix": "eslint '**/*.js' --fix"
   },
